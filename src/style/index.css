@@ -80,7 +80,70 @@ main{
   'GRAD' 0,
   'opsz' 48
 }
-
+.template{
+    border-radius: 150%;
+    height: 35%;
+    width: 80%;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: center;
+}
+.template__box{
+    width: 80%;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: baseline;
+    position: relative;
+}
+.pointer__hours{
+    width: 3%;
+    height: 72%;
+    position: absolute;
+    top: 13%;
+}
+.pointer__hours div{
+    background-color: var(--color2);
+    width: 100%;
+    height: 50%;
+}
+.pointer__minutes{
+    width: 2%;
+    height: 84%;
+    position: absolute;
+    top: 7%;
+}
+.pointer__minutes div{
+    background-color: var(--color2);
+    width: 100%;
+    height: 50%;
+}
+.pointer__seconds{
+    width: 1%;
+    height: 98%;
+    position: absolute;
+}
+.pointer__seconds div{
+    background-color:var(--color1);
+    width: 100%;
+    height: 50%;
+}
+.type__button{
+    background-color: var(--color4);
+    border: 2px solid var(--color1);
+    color: var(--color1);
+    padding: 10px;
+    border-radius: 10px;
+}
+.time__seconds{
+    transition: 1s linear;
+}
+.seconds{
+    transition: 1s linear;
+}
 @media (min-width:769px){
     main{
         margin-top: 10%;

@@ -1,15 +1,15 @@
-let deg=0
-let degS=0
+let timeStart= new Date().toLocaleTimeString()
+const time=timeStart.split(":")
+let degSecond=time[2]*(6)
+let degMinutes=time[1]*(6)
+let degHours=time[0]*(30)
 function nextTime(){
-    let timeStart= new Date().toLocaleTimeString()
-    const time=timeStart.split(":")
-    document.querySelector(".hours").innerText=time[0]
-    document.querySelector(".minutes").innerText=time[1]
-    document.querySelector(".seconds").innerText=time[2]
-   /* document.querySelector(".seconds").style.transform=`rotate(${degS}deg)`
-    document.querySelector(".time__seconds").style.transform=`rotatex(${deg}deg)`
-    deg+=180
-    degS+=360*/
+    document.querySelector(".pointer__hours").style.transform= `rotate(${degHours}deg)`
+    document.querySelector(".pointer__minutes").style.transform= `rotate(${degMinutes}deg)`
+    document.querySelector(".pointer__seconds").style.transform= `rotate(${degSecond}deg)`
+    degSecond+=6
+    degMinutes+=1/6
+    degHours+=1/180
 }
 setInterval(nextTime, 999);
 document.querySelector(".mode__button").addEventListener("click", event=>{
@@ -22,5 +22,5 @@ document.querySelector(".mode__button").addEventListener("click", event=>{
     }
 })
 document.querySelector(".type__button").addEventListener("click", event=>{
-    window.location.replace("./src/pages/analogic.html")
+    window.location.replace("../../index.html")
 })
