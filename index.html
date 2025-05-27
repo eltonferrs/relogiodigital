@@ -86,3 +86,73 @@ void loop() {
 
   delay(20); // Pequeno atraso para suavizar o movimento
 }
+#include <Servo.h>
+
+// Pinos dos joysticks
+const int joyMovX = A4;
+const int joyMovY = A3;
+const int joyGarra = A2;
+
+// Pinos dos servos
+const int servoH = 6;
+const int servoV = 5;
+const int servoG = 3;
+
+// Objetos Servo
+Servo horizontal;
+Servo vertical;
+Servo garra;
+
+// Zona morta
+const int deadZone = 50;
+
+// Ângulos iniciais
+int anguloH = 90;
+int anguloV = 90;
+int anguloG = 180;
+
+void setup() {
+  Serial.begin(9600);
+  horizontal.attach(servoH);
+  vertical.attach(servoV);
+  garra.attach(servoG);
+
+  horizontal.write(anguloH);
+  vertical.write(anguloV);
+  garra.write(anguloG);
+}
+
+void loop() {
+  int leituraX = analogRead(joyMovX);
+  int leituraY = analogRead(joyMovY);
+  int leituraG = analogRead(joyGarra);
+
+  int deltaX = leituraX - 512;
+  int deltaY = leituraY - 512;
+
+  // Movimento Horizontal
+  if (abs(deltaX) > deadZone) {
+    anguloH += deltaX / 100;  // Mais sensível se divisor for menor
+    anguloH = constrain(anguloH, 0, 180);
+    horizontal.write(anguloH);
+  }
+
+  // Movimento Vertical
+  if (abs(deltaY) > deadZone) {
+    anguloV -= deltaY / 100;  // Ajuste conforme direção desejada
+    anguloV = constrain(anguloV, 0, 180);
+    vertical.write(anguloV);
+  }
+
+  // Movimento da Garra
+  if (leituraG < 400) {
+    anguloG += 2;
+  }
+  if (leituraG > 600) {
+    anguloG -= 2;
+  }
+  anguloG = constrain(anguloG, 0, 180);
+  garra.write(anguloG);
+
+  delay(20);
+}
