@@ -20,3 +20,69 @@
     <script type="module" src="./src/script/index.js"></script>
 </body>
 </html>
+#include <Servo.h>
+
+Servo servoHorizontal;
+Servo servoVertical;
+Servo servoGarra;
+
+const int joyX1 = A0; // Joystick 1 - eixo X (horizontal)
+const int joyY1 = A1; // Joystick 1 - eixo Y (vertical)
+const int joyX2 = A2; // Joystick 2 - eixo X (garra)
+
+// Pinos dos servos
+const int pinServoHorizontal = 9;
+const int pinServoVertical = 10;
+const int pinServoGarra = 11;
+
+// Armazenam as posições atuais dos servos
+int posHorizontal = 90;
+int posVertical = 90;
+int posGarra = 90;
+
+// Sensibilidade (ajuste conforme necessário)
+const int deadzone = 20;
+const int stepSize = 1;
+
+void setup() {
+  servoHorizontal.attach(pinServoHorizontal);
+  servoVertical.attach(pinServoVertical);
+  servoGarra.attach(pinServoGarra);
+
+  servoHorizontal.write(posHorizontal);
+  servoVertical.write(posVertical);
+  servoGarra.write(posGarra);
+}
+
+void loop() {
+  int x1 = analogRead(joyX1) - 512;
+  int y1 = analogRead(joyY1) - 512;
+  int x2 = analogRead(joyX2) - 512;
+
+  // Controle horizontal
+  if (abs(x1) > deadzone) {
+    posHorizontal += (x1 > 0 ? stepSize : -stepSize);
+  }
+
+  // Controle vertical
+  if (abs(y1) > deadzone) {
+    posVertical += (y1 > 0 ? -stepSize : stepSize); // Invertido se necessário
+  }
+
+  // Controle da garra
+  if (abs(x2) > deadzone) {
+    posGarra += (x2 > 0 ? stepSize : -stepSize);
+  }
+
+  // Limitar posições entre 0 e 180 graus
+  posHorizontal = constrain(posHorizontal, 0, 180);
+  posVertical = constrain(posVertical, 0, 180);
+  posGarra = constrain(posGarra, 0, 180);
+
+  // Atualiza os servos
+  servoHorizontal.write(posHorizontal);
+  servoVertical.write(posVertical);
+  servoGarra.write(posGarra);
+
+  delay(20); // Pequeno atraso para suavizar o movimento
+}
